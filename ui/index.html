@@ -5,82 +5,178 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Radar Pokémon 30 ans</title>
 <style>
-  :root { --bg:#0f1115; --card:#181b22; --line:#2a2f3a; --text:#e8e8ec; --muted:#9aa1ad;
-          --ok:#3ddc84; --warn:#ffb347; --bad:#ff5c5c; --unknown:#8a8f9c; --accent:#ffcb05; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.45 -apple-system, Segoe UI, Roboto, sans-serif; }
-  header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 20px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
-  h1 { margin:0; font-size:20px; } h1 span { color:var(--accent); }
-  .meta { color:var(--muted); font-size:13px; }
-  button { background:var(--accent); color:#111; border:0; border-radius:6px; padding:10px 16px; font-weight:700; cursor:pointer; }
-  button:disabled { opacity:.45; cursor:default; }
-  main { padding:16px 20px; max-width:1200px; margin:0 auto; }
-  .banner { padding:10px 14px; border-radius:6px; margin-bottom:14px; font-size:14px; }
-  .banner.warn { background:#3a2c10; color:var(--warn); } .banner.bad { background:#3a1616; color:var(--bad); } .banner.hidden { display:none; }
+  :root { --bg:#f4f5f7; --card:#ffffff; --line:#e3e6ea; --text:#1b1f27; --muted:#66707f;
+          --ok:#1f9d55; --ok-bg:#e6f7ec; --warn:#b7791f; --warn-bg:#fff4dd; --bad:#c53030; --bad-bg:#fde8e8;
+          --unknown:#6b7280; --unknown-bg:#eef0f3; --accent:#ffcb05; --accent-text:#1b1f27; }
+  [data-view="tech"] { --bg:#0f1115; --card:#181b22; --line:#2a2f3a; --text:#e8e8ec; --muted:#9aa1ad;
+          --ok:#3ddc84; --ok-bg:#123b26; --warn:#ffb347; --warn-bg:#3a2c10; --bad:#ff5c5c; --bad-bg:#3a1616;
+          --unknown:#8a8f9c; --unknown-bg:#2a2f3a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 -apple-system, Segoe UI, Roboto, sans-serif; }
+  header { background:var(--card); border-bottom:1px solid var(--line); padding:16px 20px; }
+  .bar { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  h1 { margin:0; font-size:20px; } h1 span { background:var(--accent); color:var(--accent-text); padding:0 6px; border-radius:4px; }
+  .seg { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .seg button { background:transparent; color:var(--muted); border:0; padding:7px 14px; cursor:pointer; font-weight:600; font-size:14px; }
+  .seg button.on { background:var(--accent); color:var(--accent-text); }
+  .btn { background:var(--accent); color:var(--accent-text); border:0; border-radius:8px; padding:11px 18px; font-weight:700; font-size:15px; cursor:pointer; }
+  .btn:disabled { opacity:.45; cursor:default; }
+  main { max-width:1100px; margin:0 auto; padding:18px 20px 40px; }
+  .hidden { display:none !important; }
+  .muted { color:var(--muted); } .small { font-size:13px; }
+  .banner { padding:12px 16px; border-radius:10px; margin-bottom:16px; font-size:15px; }
+  .banner.ok { background:var(--ok-bg); color:var(--ok); } .banner.warn { background:var(--warn-bg); color:var(--warn); } .banner.bad { background:var(--bad-bg); color:var(--bad); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:12px; }
+  .pill { display:inline-block; padding:5px 12px; border-radius:999px; font-weight:700; font-size:14px; }
+  .s-web { background:var(--ok-bg); color:var(--ok); } .s-store { background:var(--ok-bg); color:var(--ok); }
+  .s-out { background:var(--bad-bg); color:var(--bad); } .s-unknown { background:var(--unknown-bg); color:var(--unknown); }
+  /* vue simple */
+  .hero { text-align:center; padding:28px 16px; border-radius:14px; margin-bottom:18px; background:var(--card); border:1px solid var(--line); }
+  .hero .big { font-size:26px; font-weight:800; margin:0 0 6px; } .hero.good { background:var(--ok-bg); border-color:transparent; } .hero.good .big { color:var(--ok); }
+  .prod { display:flex; gap:16px; align-items:flex-start; }
+  .prod .name { font-weight:700; font-size:17px; margin:0 0 6px; } .prod .name a { color:inherit; text-decoration:none; }
+  .prod .price { margin-left:auto; font-weight:800; font-size:20px; white-space:nowrap; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .chip { background:var(--unknown-bg); color:var(--text); padding:4px 10px; border-radius:8px; font-size:13px; }
+  .chip.star { background:var(--ok-bg); color:var(--ok); font-weight:700; }
+  .facts { margin-top:18px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; }
+  .fact { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px; } .fact b { display:block; font-size:18px; }
+  /* vue technique */
   .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:12px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px; }
-  .card h2 { margin:0 0 6px; font-size:15px; } .card h2 a { color:inherit; text-decoration:none; } .card h2 a:hover { text-decoration:underline; }
-  .status { display:inline-block; padding:3px 9px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:.3px; }
-  .DISPONIBLE_WEB { background:var(--ok); color:#062; } .DISPONIBLE_MAGASIN { background:#1f6f45; color:#dfffe9; }
-  .INDISPONIBLE { background:#3a1616; color:var(--bad); } .INCONNU { background:#2a2f3a; color:var(--unknown); }
-  .price { float:right; font-weight:700; color:var(--accent); }
-  .stores { margin:8px 0 0; padding:0; list-style:none; font-size:13px; } .stores li { padding:2px 0; color:var(--muted); }
-  .stores li.priority { color:var(--ok); font-weight:700; }
-  .small { color:var(--muted); font-size:12px; margin-top:8px; } .err { color:var(--bad); }
+  .tcard h2 { margin:0 0 6px; font-size:15px; } .tcard h2 a { color:inherit; text-decoration:none; }
+  .tcard .tprice { float:right; font-weight:700; color:var(--accent); }
+  .stores { margin:8px 0 0; padding:0; list-style:none; font-size:13px; } .stores li { padding:2px 0; color:var(--muted); } .stores li.priority { color:var(--ok); font-weight:700; }
+  .err { color:var(--bad); }
   pre { background:#0a0c10; border:1px solid var(--line); border-radius:8px; padding:12px; font-size:12px; overflow:auto; max-height:320px; color:#c9d1d9; }
-  @media (max-width:600px) { header { padding:14px 16px; } main { padding:12px 16px; } .grid { grid-template-columns:1fr; } }
+  details summary { cursor:pointer; color:var(--muted); }
+  @media (max-width:600px) { header, main { padding-left:14px; padding-right:14px; } .grid { grid-template-columns:1fr; } .prod { flex-direction:column; } .prod .price { margin-left:0; } }
 </style>
 </head>
-<body>
+<body data-view="simple">
 <header>
-  <div>
+  <div class="bar">
     <h1>Radar <span>Pokémon 30 ans</span></h1>
-    <div class="meta" id="meta">Connexion…</div>
-  </div>
-  <div>
-    <button id="refresh">Rafraîchir maintenant</button>
-    <div class="meta" id="refresh-hint"></div>
+    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+      <div class="seg"><button id="v-simple" class="on">Vue simple</button><button id="v-tech">Vue technique</button></div>
+      <div><button class="btn" id="refresh">Vérifier maintenant</button><div class="small muted" id="refresh-hint"></div></div>
+    </div>
   </div>
 </header>
+
 <main>
   <div id="banner" class="banner hidden"></div>
-  <div class="grid" id="products"></div>
-  <h3>Journal</h3>
-  <pre id="log"></pre>
+
+  <!-- ================= VUE SIMPLE ================= -->
+  <section id="simple">
+    <div class="hero" id="hero"><p class="big">Connexion au radar…</p><p class="muted" id="hero-sub"></p></div>
+    <div id="simple-products"></div>
+    <div class="facts" id="facts"></div>
+    <p class="small muted" style="margin-top:18px">Dès qu'un produit devient achetable en ligne ou apparaît dans un magasin, tu reçois une notification sur ton téléphone. Un seul message par changement, jamais de répétition.</p>
+  </section>
+
+  <!-- ================= VUE TECHNIQUE ================= -->
+  <section id="tech" class="hidden">
+    <div class="small muted" id="meta"></div>
+    <div class="grid" id="tech-products" style="margin-top:12px"></div>
+    <h3>Journal (50 dernières lignes)</h3>
+    <pre id="log"></pre>
+    <details><summary>État brut (JSON)</summary><pre id="raw"></pre></details>
+  </section>
 </main>
+
 <script>
 (function () {
   const $ = id => document.getElementById(id);
-  const fmt = iso => iso ? new Date(iso).toLocaleString('fr-FR') : '–';
-  const ago = iso => { if (!iso) return '–'; const s = Math.round((Date.now() - new Date(iso)) / 1000); return s < 60 ? s + ' s' : Math.round(s / 60) + ' min'; };
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const fmt = iso => iso ? new Date(iso).toLocaleString('fr-FR') : '–';
+  const agoWords = iso => { if (!iso) return 'jamais'; const s = Math.round((Date.now() - new Date(iso)) / 1000);
+    return s < 60 ? `il y a ${s} s` : s < 3600 ? `il y a ${Math.round(s / 60)} min` : `il y a ${Math.round(s / 3600)} h`; };
+  const inWords = iso => { if (!iso) return '–'; const s = Math.round((new Date(iso) - Date.now()) / 1000);
+    return s <= 0 ? 'dans quelques instants' : s < 60 ? `dans ${s} s` : `dans ${Math.round(s / 60)} min`; };
+  const price = p => p == null ? '' : p.toFixed(2).replace('.', ',') + ' €';
+  const cityOf = name => name.replace(/la grande r[ée]cr[ée]/i, '').replace(/^[\s-]+/, '').trim();
   let last = null;
 
-  function render(data) {
-    last = data;
-    const r = data.radar;
-    $('meta').textContent = `${r.stores_watched} magasins · intervalle ${r.interval_seconds} s · cycle ${r.cycles} · dernier passage il y a ${ago(r.last_cycle_at)} · prochain ${fmt(r.next_cycle_at)}`;
-    const b = $('banner'); b.className = 'banner hidden'; b.textContent = '';
-    if (!r.ntfy_configured) { b.className = 'banner bad'; b.textContent = 'NTFY_TOPIC absent dans .env : aucune notification ne partira.'; }
-    else if (r.blocked) { b.className = 'banner warn'; b.textContent = 'Le site a répondu 403/429/502 ou timeout au dernier cycle : cadence ralentie, stock magasin peut-être inconnu.'; }
-    else if (r.consecutive_failed_cycles > 0) { b.className = 'banner warn'; b.textContent = `${r.consecutive_failed_cycles} cycle(s) consécutif(s) en erreur.`; }
-    $('products').innerHTML = data.products.map(p => {
+  // ---- choix de la vue ----
+  let view = location.pathname.replace(/\/$/, '') === '/tech' ? 'tech' : (localStorage.getItem('radar-view') || 'simple');
+  function setView(v) {
+    view = v; localStorage.setItem('radar-view', v);
+    document.body.dataset.view = v;
+    $('simple').classList.toggle('hidden', v !== 'simple'); $('tech').classList.toggle('hidden', v !== 'tech');
+    $('v-simple').classList.toggle('on', v === 'simple'); $('v-tech').classList.toggle('on', v === 'tech');
+    history.replaceState(null, '', v === 'tech' ? '/tech' : '/');
+    if (last) render(last);
+  }
+  $('v-simple').onclick = () => setView('simple'); $('v-tech').onclick = () => setView('tech');
+
+  // ---- libellés en clair ----
+  function plain(p) {
+    if (p.status === 'DISPONIBLE_WEB') return { cls: 's-web', text: 'Achetable en ligne' };
+    if (p.status === 'DISPONIBLE_MAGASIN') return { cls: 's-store', text: `Disponible dans ${p.stores.length} magasin${p.stores.length > 1 ? 's' : ''}` };
+    if (p.status === 'INDISPONIBLE') return { cls: 's-out', text: 'En rupture' };
+    return { cls: 's-unknown', text: 'Vérification impossible pour le moment' };
+  }
+
+  function renderSimple(d) {
+    const r = d.radar, ps = d.products;
+    const dispo = ps.filter(p => p.status === 'DISPONIBLE_WEB' || p.status === 'DISPONIBLE_MAGASIN');
+    const hero = $('hero');
+    hero.className = 'hero' + (dispo.length ? ' good' : '');
+    hero.querySelector('.big').textContent = ps.length === 0 ? 'Première vérification en cours…'
+      : dispo.length ? `${dispo.length} produit${dispo.length > 1 ? 's' : ''} disponible${dispo.length > 1 ? 's' : ''} !`
+      : 'Rien de disponible pour l’instant';
+    $('hero-sub').textContent = ps.length === 0 ? 'Le radar vient de démarrer, patiente une minute.'
+      : `Dernière vérification ${agoWords(r.last_cycle_at)} · prochaine ${inWords(r.next_cycle_at)}`;
+
+    $('simple-products').innerHTML = ps.map(p => {
+      const s = plain(p);
+      const chips = p.stores.length ? `<div class="chips">${p.stores.map(st => `<span class="chip ${st.priority ? 'star' : ''}">${st.priority ? '★ ' : ''}${esc(cityOf(st.name))}</span>`).join('')}</div>` : '';
+      const storeNote = (!p.stores.length && !p.stores_known && p.status !== 'INCONNU') ? '<div class="small muted" style="margin-top:6px">Stock en magasin inconnu pour le moment (le site ne répond pas sur cette partie).</div>' : '';
+      return `<div class="card"><div class="prod"><div style="flex:1">
+          <p class="name"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title || 'Produit')}</a></p>
+          <span class="pill ${s.cls}">${s.text}</span>
+          <span class="small muted"> · vérifié ${agoWords(p.last_checked)}</span>
+          ${chips}${storeNote}
+        </div><div class="price">${price(p.price)}</div></div></div>`;
+    }).join('');
+
+    $('facts').innerHTML = `
+      <div class="fact"><span class="small muted">Produits surveillés</span><b>${ps.length}</b></div>
+      <div class="fact"><span class="small muted">Magasins surveillés</span><b>${r.stores_watched}</b></div>
+      <div class="fact"><span class="small muted">Vérification toutes les</span><b>${Math.round(r.interval_seconds / 60)} min</b></div>
+      <div class="fact"><span class="small muted">Notifications</span><b>${r.ntfy_configured ? 'activées' : 'non configurées'}</b></div>`;
+  }
+
+  function renderTech(d) {
+    const r = d.radar;
+    $('meta').textContent = `${r.stores_watched} magasins · intervalle ${r.interval_seconds} s · cycle ${r.cycles} · dernier ${fmt(r.last_cycle_at)} (${r.last_cycle_duration ?? '–'} s) · prochain ${fmt(r.next_cycle_at)} · bloqué : ${r.blocked} · échecs consécutifs : ${r.consecutive_failed_cycles} · ${r.last_message || ''}`;
+    $('tech-products').innerHTML = d.products.map(p => {
       const stores = p.stores.length
-        ? `<ul class="stores">${p.stores.map(s => `<li class="${s.priority ? 'priority' : ''}">${esc(s.name)}</li>`).join('')}</ul>`
-        : `<div class="small">${p.stores_known ? 'Aucun magasin surveillé ne l’a en stock.' : 'Stock magasin inconnu (API injoignable).'}</div>`;
-      const price = p.price == null ? '' : p.price.toFixed(2).replace('.', ',') + ' €';
-      return `<div class="card">
-        <span class="price">${price}</span>
+        ? `<ul class="stores">${p.stores.map(s => `<li class="${s.priority ? 'priority' : ''}">${esc(s.name)} <span class="muted">#${s.id}</span></li>`).join('')}</ul>`
+        : `<div class="small muted">${p.stores_known ? 'Aucun magasin surveillé ne l’a en stock.' : 'Stock magasin inconnu (API injoignable).'}</div>`;
+      return `<div class="card tcard">
+        <span class="tprice">${price(p.price)}</span>
         <h2><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title || p.url)}</a></h2>
-        <span class="status ${p.status}">${p.status.replace('_', ' ')}</span>
-        <span class="small"> web : ${p.web_available === true ? 'disponible' : p.web_available === false ? 'rupture' : 'inconnu'}</span>
+        <span class="pill ${plain(p).cls}">${p.status}</span>
+        <span class="small muted"> web=${p.web_available} · id ${p.product_id}</span>
         ${stores}
-        <div class="small">Vérifié il y a ${ago(p.last_checked)} · changement : ${fmt(p.last_change)}${p.last_error ? `<br><span class="err">${esc(p.last_error)}</span> (${p.consecutive_errors} d’affilée)` : ''}</div>
+        <div class="small muted" style="margin-top:8px">Vérifié ${fmt(p.last_checked)} · changement ${fmt(p.last_change)}${p.last_error ? `<br><span class="err">${esc(p.last_error)}</span> (${p.consecutive_errors} d’affilée)` : ''}</div>
       </div>`;
-    }).join('') || '<div class="small">Aucun produit encore observé. Le premier cycle arrive.</div>';
-    $('log').textContent = data.log.join('\n');
+    }).join('') || '<div class="small muted">Aucun produit encore observé.</div>';
+    $('log').textContent = d.log.join('\n');
+    $('raw').textContent = JSON.stringify({ radar: d.radar, products: d.products }, null, 2);
+  }
+
+  function render(d) {
+    last = d;
+    const r = d.radar, b = $('banner');
+    b.className = 'banner hidden'; b.textContent = '';
+    if (!r.ntfy_configured) { b.className = 'banner bad'; b.textContent = view === 'tech' ? 'NTFY_TOPIC absent dans .env : aucune notification ne partira.' : 'Les notifications ne sont pas configurées : tu ne recevras rien sur ton téléphone.'; }
+    else if (r.blocked) { b.className = 'banner warn'; b.textContent = view === 'tech' ? 'Dernier cycle : 403/429/502 ou timeout. Backoff actif, stock magasin peut-être inconnu.' : 'Le site répond mal en ce moment. Le radar ralentit un peu pour ne pas insister, et le stock en magasin peut être inconnu.'; }
+    else if (r.consecutive_failed_cycles > 0) { b.className = 'banner warn'; b.textContent = view === 'tech' ? `${r.consecutive_failed_cycles} cycle(s) consécutif(s) en erreur.` : 'La dernière vérification a échoué. Le radar réessaie automatiquement.'; }
+    if (view === 'simple') renderSimple(d); else renderTech(d);
     $('refresh').disabled = r.refresh_available_in > 0;
-    $('refresh-hint').textContent = r.refresh_available_in > 0 ? `disponible dans ${r.refresh_available_in} s` : '';
+    $('refresh-hint').textContent = r.refresh_available_in > 0 ? `possible dans ${r.refresh_available_in} s` : '';
   }
 
   async function load() {
@@ -89,18 +185,18 @@
       if (!res.ok) throw new Error(res.status);
       render(await res.json());
     } catch (e) {
-      $('meta').textContent = 'Radar injoignable.';
+      $('hero').querySelector('.big').textContent = 'Radar injoignable';
       const b = $('banner'); b.className = 'banner bad';
-      b.textContent = 'Cette page doit être servie par le radar, pas par un serveur de fichiers (Live Server, port 5500…). '
-        + 'Lance « python radar.py --serve » puis ouvre http://127.0.0.1:8765';
+      b.textContent = 'Cette page doit être ouverte depuis le radar lui-même : lance « python radar.py --serve » puis ouvre http://127.0.0.1:8765';
     }
   }
 
   $('refresh').addEventListener('click', async () => {
     $('refresh').disabled = true;
-    const res = await fetch('/api/refresh', { method: 'POST' });
-    const body = await res.json();
-    $('refresh-hint').textContent = body.ok ? 'Cycle lancé…' : `patiente ${body.retry_in} s`;
+    try {
+      const body = await (await fetch('/api/refresh', { method: 'POST' })).json();
+      $('refresh-hint').textContent = body.ok ? 'Vérification lancée…' : `possible dans ${body.retry_in} s`;
+    } catch (e) { $('refresh-hint').textContent = 'radar injoignable'; }
     setTimeout(load, 1500);
   });
 
@@ -109,7 +205,7 @@
     es.onmessage = ev => render(JSON.parse(ev.data));
     es.onerror = () => { es.close(); setTimeout(connect, 5000); };
   }
-  load(); connect();
+  setView(view); load(); connect();
   setInterval(() => { if (last) render(last); }, 15000);
 })();
 </script>

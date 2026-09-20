@@ -45,6 +45,7 @@ class Config:
     ui_host: str
     ui_port: int
     use_browser: bool
+    ui_token: str | None = None  # si défini, l'interface demande ce mot de passe (HTTP Basic)
     stores: list[dict] = field(default_factory=list)
 
 
@@ -127,8 +128,10 @@ def load_config(config_path: Path = Path("config.yaml"), stores_path: Path = Pat
         state_file=Path(raw.get("state_file", "state.json")),
         log_file=Path(raw.get("log_file", "radar.log")),
         failure_threshold=int(raw.get("failure_threshold", 5)),
-        ui_host=str(ui_raw.get("host", "127.0.0.1")),
-        ui_port=int(ui_raw.get("port", 8765)),
+        # Hébergement (Railway, Docker…) : PORT et UI_HOST priment sur config.yaml.
+        ui_host=os.environ.get("UI_HOST") or str(ui_raw.get("host", "127.0.0.1")),
+        ui_port=int(os.environ.get("PORT") or ui_raw.get("port", 8765)),
+        ui_token=os.environ.get("UI_TOKEN") or None,
         use_browser=use_browser,
         stores=stores,
     )

@@ -13,9 +13,12 @@ import time
 from collections import deque
 from pathlib import Path
 
+import secrets
+
 import uvicorn
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from radarlib.core import Radar
 
@@ -31,7 +34,17 @@ def _tail(path: Path, n: int = 50) -> list[str]:
 
 
 def build_app(radar: Radar) -> FastAPI:
-    app = FastAPI(title="Radar Pokémon 30 ans")
+    token = radar.config.ui_token
+    basic = HTTPBasic(auto_error=False)
+
+    def guard(credentials: HTTPBasicCredentials | None = Depends(basic)) -> None:
+        """Sans UI_TOKEN : accès libre (usage local). Avec : mot de passe exigé, utilisateur libre."""
+        if token is None:
+            return
+        if credentials is None or not secrets.compare_digest(credentials.password.encode(), token.encode()):
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Mot de passe requis", headers={"WWW-Authenticate": "Basic"})
+
+    app = FastAPI(title="Radar Pokémon 30 ans", dependencies=[Depends(guard)])
     last_refresh = {"at": 0.0}
 
     def snapshot() -> dict:
@@ -64,6 +77,11 @@ def build_app(radar: Radar) -> FastAPI:
 
     @app.get("/", response_class=HTMLResponse)
     def index() -> str:
+        return UI_FILE.read_text(encoding="utf-8")
+
+    @app.get("/tech", response_class=HTMLResponse)
+    def tech() -> str:
+        """Même page, ouverte directement en vue technique."""
         return UI_FILE.read_text(encoding="utf-8")
 
     @app.get("/api/state")

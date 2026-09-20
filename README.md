@@ -87,6 +87,27 @@ Les tests tournent sur des fixtures enregistrées pendant l'exploration (fiches 
 
 Deux limites à connaître. Le cron GitHub est souvent en retard de plusieurs minutes, donc pour un restock qui part vite, la boucle locale reste la méthode principale. Et les requêtes partent d'IP de datacenter Microsoft, que le site peut refuser : si le journal du workflow montre des 403 ou un captcha alors que tout marche en local, désactive le cron et laisse tourner le radar chez toi, sans chercher à contourner.
 
+## Déployer sur Railway (ou un autre hébergeur)
+
+Le dépôt contient un `Procfile` et un `railway.json` : la commande de démarrage est `python radar.py --serve`, le port vient de la variable `PORT` fournie par l'hébergeur, et l'hôte doit être `0.0.0.0`.
+
+Variables à définir dans le service Railway :
+
+| Variable | Valeur |
+|---|---|
+| `NTFY_TOPIC` | ton topic ntfy |
+| `UI_HOST` | `0.0.0.0` |
+| `UI_TOKEN` | un mot de passe : l'interface est publique sur Internet, sans lui n'importe qui pourrait la voir et appuyer sur « Vérifier maintenant » |
+
+Au premier accès, le navigateur demande un identifiant (n'importe lequel) et un mot de passe (`UI_TOKEN`).
+
+Deux limites à connaître :
+
+- **Adresse IP de datacenter.** Comme pour GitHub Actions, le site peut répondre 403 ou 502 aux serveurs cloud. Si le journal (vue technique) montre des erreurs alors que tout marche depuis chez toi, laisse le radar tourner en local : c'est l'adresse résidentielle qui passe le mieux, et on ne contourne pas.
+- **`state.json` est perdu à chaque redéploiement** sur le système de fichiers éphémère de Railway. Conséquence : après un redémarrage, ce qui est disponible à ce moment-là est renotifié une fois. Pour l'éviter, monter un volume Railway sur le dossier de l'application et pointer `state_file` dessus dans `config.yaml`, par exemple `/data/state.json`.
+
+Playwright n'est pas installé sur l'hébergeur (le mode HTTP suffit) : ne pas utiliser `--fallback` là-bas.
+
 ## Si le site bloque
 
 Le radar ralentit tout seul. Si les erreurs persistent, monte `interval_seconds` à 300 dans `config.yaml`, arrête le radar quelques heures, puis relance. Ne pas ajouter de proxy.
