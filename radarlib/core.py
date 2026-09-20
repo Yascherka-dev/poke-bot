@@ -131,6 +131,10 @@ class Radar:
             new_state, alerts = apply_observation(prev, obs)
             key = str(new_state.product_id)
             with self._lock:
+                # Une seule entrée par URL suivie : si l'identifiant a changé (état
+                # issu du mode mock, ou fiche re-créée par le site), on purge l'ancienne.
+                for stale in [k for k, p in self.state.products.items() if p.url == url and k != key]:
+                    del self.state.products[stale]
                 self.state.products[key] = new_state
             self._log_product(new_state)
             for alert in alerts:

@@ -121,6 +121,20 @@ def test_api_en_502_donne_inconnu_et_pas_de_notif(tmp_path):
     assert radar.blocked is True
 
 
+def test_une_seule_entree_par_url_meme_si_l_id_change(tmp_path):
+    """Un state.json hérité du mode mock (faux ids) ne doit pas doubler les produits."""
+    fetcher, sent = FakeFetcher(), []
+    radar = make_radar(tmp_path, fetcher, sent)
+    fetcher.html = fetcher.html.replace('"id":95148290', '"id":90000001')
+    radar.run_cycle()
+    assert list(radar.state.products) == ["90000001"]
+
+    fetcher.html = (FIXTURES / "fiche_coffret_dresseur_indispo.html").read_text(encoding="utf-8")
+    radar.run_cycle()
+    assert list(radar.state.products) == ["95148290"]
+    assert sent == []
+
+
 def test_page_en_panne_5_cycles_declenche_notif_radar_en_panne(tmp_path):
     fetcher, sent = FakeFetcher(), []
     radar = make_radar(tmp_path, fetcher, sent)
