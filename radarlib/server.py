@@ -101,7 +101,7 @@ def build_app(radar: Radar) -> FastAPI:
     async def events() -> StreamingResponse:
         async def stream():
             seen = -1
-            while True:
+            while not radar.stop_event.is_set():  # sinon le flux SSE empêche l'arrêt propre
                 if radar.version != seen:
                     seen = radar.version
                     yield f"data: {json.dumps(snapshot(), ensure_ascii=False)}\n\n"
@@ -120,8 +120,14 @@ def serve(radar: Radar) -> None:
     thread.start()
     app = build_app(radar)
     print(f"Interface : http://{radar.config.ui_host}:{radar.config.ui_port}")
-    try:
-        uvicorn.run(app, host=radar.config.ui_host, port=radar.config.ui_port, log_level="warning")
-    finally:
+    def on_stop() -> None:
         radar.stop_event.set()
         radar.request_refresh()
+
+    try:
+        # Sans délai de grâce, uvicorn attendrait indéfiniment la fin des flux SSE
+        # ouverts par l'interface, et Ctrl+C ne stopperait jamais le radar.
+        uvicorn.run(app, host=radar.config.ui_host, port=radar.config.ui_port, log_level="warning",
+                    timeout_graceful_shutdown=3)
+    finally:
+        on_stop()

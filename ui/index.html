@@ -131,7 +131,8 @@
     $('simple-products').innerHTML = ps.map(p => {
       const s = plain(p);
       const chips = p.stores.length ? `<div class="chips">${p.stores.map(st => `<span class="chip ${st.priority ? 'star' : ''}">${st.priority ? '★ ' : ''}${esc(cityOf(st.name))}</span>`).join('')}</div>` : '';
-      const storeNote = (!p.stores.length && !p.stores_known && p.status !== 'INCONNU') ? '<div class="small muted" style="margin-top:6px">Stock en magasin inconnu pour le moment (le site ne répond pas sur cette partie).</div>' : '';
+      const storeNote = (!p.stores_known && p.status !== 'INCONNU')
+        ? `<div class="small muted" style="margin-top:6px">${p.stores.length ? 'Liste des magasins datant de la dernière vérification réussie : ' : 'Stock en magasin inconnu pour le moment : '}le site ne répond pas sur cette partie.</div>` : '';
       return `<div class="card"><div class="prod"><div style="flex:1">
           <p class="name"><a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title || 'Produit')}</a></p>
           <span class="pill ${s.cls}">${s.text}</span>
