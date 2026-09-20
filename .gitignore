@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+state.json
+debug/
+radar.log*
+reference/*.html
+reference/*.js
+.pytest_cache/
+state.mock.json

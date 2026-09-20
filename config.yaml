@@ -1,0 +1,46 @@
+# Radar de stock, collection Pokémon 30e anniversaire sur lagranderecre.fr.
+# Le topic ntfy n'est PAS ici : il vit dans .env (NTFY_TOPIC), ignoré par git.
+
+products:
+  - https://www.lagranderecre.fr/jeux-de-societe/cartes-a-collectionner/coffret-dresseur-d-elite-pokemon-30e-anniversaire.html
+  - https://www.lagranderecre.fr/jeux-de-societe/cartes-a-collectionner/2-boosters-evoli-pokemon-30e-anniversaire.html
+  - https://www.lagranderecre.fr/jeux-de-societe/cartes-a-collectionner/coffret-collection-poster-pokemon-30e-anniversaire.html
+  - https://www.lagranderecre.fr/jeux-de-societe/cartes-a-collectionner/coffret-4-boosters-nymphali-ex-pokemon-30e-anniversaire.html
+  - https://www.lagranderecre.fr/jeux-de-societe/cartes-a-collectionner/coffret-4-boosters-amphinobi-ex-pokemon-30e-anniversaire.html
+
+# Page événement : tout nouveau produit « 30e anniversaire » y est détecté,
+# notifié en basse priorité et ajouté automatiquement à la surveillance.
+event_url: https://www.lagranderecre.fr/evenements/30-ans-pokemon.html
+
+interval_seconds: 180          # plancher 120, non contournable
+jitter_seconds: 30             # ± aléatoire sur l'intervalle
+api_min_gap_seconds: 3         # espacement minimal entre deux appels au site
+interval_on_block_seconds: 300 # cadence quand le site répond 403/429/502 ou timeout
+confirm_delay_seconds: 10      # second contrôle avant toute alerte « disponible »
+failure_threshold: 5           # cycles consécutifs en erreur avant la notif « radar en panne »
+
+# Régions de stores.yaml à surveiller (34 magasins).
+regions: [Île-de-France, Normandie, Bretagne]
+
+# Centres de recherche pour l'API de disponibilité magasin (rayon fixé par le
+# site, environ 100 km). Un appel par produit et par centre, à chaque cycle.
+centers:
+  - {name: Paris, lat: 48.8566, lng: 2.3522}
+  - {name: Rouen, lat: 49.4432, lng: 1.0993}
+  - {name: Caen, lat: 49.1829, lng: -0.3707}
+  - {name: Rennes, lat: 48.1173, lng: -1.6778}
+  - {name: Quimper, lat: 47.9960, lng: -4.1024}
+
+# Magasins mis en tête des notifications et surlignés dans l'interface
+# (sous-chaîne du nom, insensible à la casse). Les autres restent surveillés.
+priority_stores: [villeneuve la garenne, la boetie]
+
+ntfy:
+  server: https://ntfy.sh
+
+ui:
+  host: 127.0.0.1
+  port: 8765
+
+state_file: state.json
+log_file: radar.log

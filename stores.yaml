@@ -1,0 +1,343 @@
+# Magasins La Grande Récré surveillés, générés par tools/build_stores.py
+# depuis les pages /magasins/region/<slug>/ du site. Ne pas éditer à la main.
+stores:
+- id: 86295909
+  code: '6619'
+  name: La Grande Récré Poissonnière
+  region: Île-de-France
+  zip: '75002'
+  city: PARIS
+  lat: 48.8712
+  lng: 2.34363
+  reservation: true
+  pickup: true
+- id: 92097880
+  code: '1050'
+  name: La Grande Récré PARIS - La Boetie
+  region: Île-de-France
+  zip: '75008'
+  city: PARIS
+  lat: 48.8709
+  lng: 2.30613
+  reservation: true
+  pickup: true
+- id: 84203041
+  code: '6612'
+  name: La grande récré ITALIE 2
+  region: Île-de-France
+  zip: '75013'
+  city: PARIS
+  lat: 48.8322
+  lng: 2.35556
+  reservation: false
+  pickup: true
+- id: 92001812
+  code: '1055'
+  name: La Grande Récré PARIS - Alesia
+  region: Île-de-France
+  zip: '75014'
+  city: PARIS
+  lat: 48.8299
+  lng: 2.32115
+  reservation: true
+  pickup: true
+- id: 92099750
+  code: '1025'
+  name: La Grande Récré PARIS - BEAUGRENELLE
+  region: Île-de-France
+  zip: '75015'
+  city: PARIS
+  lat: 48.84741651436
+  lng: 2.2841423769707
+  reservation: true
+  pickup: true
+- id: 92177330
+  code: '1015'
+  name: La Grande Récré PASSY
+  region: Île-de-France
+  zip: '75016'
+  city: PARIS
+  lat: 48.8577
+  lng: 2.27982
+  reservation: true
+  pickup: true
+- id: 92480437
+  code: '1091'
+  name: La Grande Récré BARBES
+  region: Île-de-France
+  zip: '75018'
+  city: PARIS
+  lat: 48.8851
+  lng: 2.34944
+  reservation: true
+  pickup: true
+- id: 93263384
+  code: '1150'
+  name: La Grande Récré PARIS PORTE DES LILAS
+  region: Île-de-France
+  zip: '75020'
+  city: PARIS
+  lat: 48.8821
+  lng: 2.40798
+  reservation: true
+  pickup: true
+- id: 92177329
+  code: '1090'
+  name: La Grande Récré CARRE SENART
+  region: Île-de-France
+  zip: '77127'
+  city: LIEUSAINT
+  lat: 48.6168
+  lng: 2.54938
+  reservation: true
+  pickup: true
+- id: 93402725
+  code: '1191'
+  name: La Grande Récré PROVINS
+  region: Île-de-France
+  zip: '77160'
+  city: PROVINS
+  lat: 48.5485
+  lng: 3.29339
+  reservation: true
+  pickup: true
+- id: 93263380
+  code: '1284'
+  name: La Grande Récré Claye-Souilly
+  region: Île-de-France
+  zip: '77410'
+  city: Claye-Souilly
+  lat: 48.98816
+  lng: 2.65573
+  reservation: true
+  pickup: true
+- id: 25236100
+  code: '4880'
+  name: La grande recré MONTEVRAIN
+  region: Île-de-France
+  zip: '77600'
+  city: CHANTELOUP EN BRIE
+  lat: 48.8563
+  lng: 2.75206
+  reservation: true
+  pickup: true
+- id: 89915042
+  code: '4651'
+  name: La Grande Récré BUCHELAY
+  region: Île-de-France
+  zip: '78200'
+  city: BUCHELAY
+  lat: 48.9897
+  lng: 1.67605
+  reservation: true
+  pickup: false
+- id: 93263371
+  code: '1120'
+  name: La Grande Récré MONTESSON
+  region: Île-de-France
+  zip: '78360'
+  city: MONTESSON
+  lat: 48.9283
+  lng: 2.14356
+  reservation: true
+  pickup: true
+- id: 92480416
+  code: '1030'
+  name: La Grande Récré EVRY 2
+  region: Île-de-France
+  zip: '91000'
+  city: EVRY
+  lat: 48.628625752375
+  lng: 2.4277683911046
+  reservation: true
+  pickup: true
+- id: 93263387
+  code: '1209'
+  name: La Grande Récré LEVALLOIS PERRET
+  region: Île-de-France
+  zip: '92300'
+  city: LEVALLOIS PERRET
+  lat: 48.892444421596196
+  lng: 2.297173432707696
+  reservation: true
+  pickup: true
+- id: 93402726
+  code: '1238'
+  name: La Grande Récré VILLENEUVE LA GARENNE
+  region: Île-de-France
+  zip: '92390'
+  city: VILLENEUVE LA GARENNE
+  lat: 48.9252
+  lng: 2.32456
+  reservation: true
+  pickup: true
+- id: 94626239
+  code: '4652'
+  name: La Grande Récré COURBEVOIE
+  region: Île-de-France
+  zip: '92400'
+  city: COURBEVOIE
+  lat: 48.8946569
+  lng: 2.2507015
+  reservation: true
+  pickup: true
+- id: 90553721
+  code: '1013'
+  name: La Grande Récré ROSNY-SOUS-BOIS
+  region: Île-de-France
+  zip: '93110'
+  city: ROSNY-SOUS-BOIS
+  lat: 48.8757
+  lng: 2.48593
+  reservation: true
+  pickup: true
+- id: 92097884
+  code: '1007'
+  name: La Grande Récré CRETEIL
+  region: Île-de-France
+  zip: '94000'
+  city: CRETEIL
+  lat: 48.7904
+  lng: 2.45557
+  reservation: true
+  pickup: true
+- id: 92001815
+  code: '1140'
+  name: La Grande Récré ARCUEIL
+  region: Île-de-France
+  zip: '94110'
+  city: ARCUEIL
+  lat: 48.8049
+  lng: 2.33495
+  reservation: true
+  pickup: true
+- id: 84949827
+  code: '6616'
+  name: La grande récré BELLE EPINE
+  region: Île-de-France
+  zip: '94320'
+  city: THIAIS
+  lat: 48.7569
+  lng: 2.37377
+  reservation: false
+  pickup: true
+- id: 92001819
+  code: '1164'
+  name: La Grande Récré BRY SUR MARNE
+  region: Île-de-France
+  zip: '94360'
+  city: BRY SUR MARNE
+  lat: 48.8305
+  lng: 2.53091
+  reservation: true
+  pickup: true
+- id: 89400929
+  code: '6602'
+  name: La Grande Récré HERBLAY
+  region: Île-de-France
+  zip: '95220'
+  city: HERBLAY
+  lat: 49.000302464995
+  lng: 2.1881969113788
+  reservation: true
+  pickup: true
+- id: 89915202
+  code: '4649'
+  name: La Grande Récré L'Isle-Adam
+  region: Île-de-France
+  zip: '95290'
+  city: L'Isle-Adam
+  lat: 49.1271
+  lng: 2.24671
+  reservation: true
+  pickup: false
+- id: 2232650
+  code: '4605'
+  name: La grande récré TOUQUES
+  region: Normandie
+  zip: '14800'
+  city: TOUQUES
+  lat: 49.3434
+  lng: 0.101277
+  reservation: true
+  pickup: false
+- id: 90018257
+  code: '6605'
+  name: La Grande Récré CAEN
+  region: Normandie
+  zip: '14980'
+  city: ROTS
+  lat: 49.198531811317
+  lng: -0.45465083713716
+  reservation: true
+  pickup: true
+- id: 93263369
+  code: '1026'
+  name: La Grande Récré EVREUX
+  region: Normandie
+  zip: '27000'
+  city: EVREUX
+  lat: 49.0089
+  lng: 1.16613
+  reservation: true
+  pickup: true
+- id: 89883586
+  code: '4650'
+  name: La Grande Récré  VERNON
+  region: Normandie
+  zip: '27200'
+  city: VERNON
+  lat: 49.092
+  lng: 1.48811
+  reservation: true
+  pickup: false
+- id: 90265104
+  code: '6606'
+  name: La Grande Récré AGNEAUX
+  region: Normandie
+  zip: '50180'
+  city: AGNEAUX
+  lat: 49.106747479975
+  lng: -1.1338770891053
+  reservation: true
+  pickup: true
+- id: 93402717
+  code: '1029'
+  name: La Grande Récré ROUEN
+  region: Normandie
+  zip: '76000'
+  city: ROUEN
+  lat: 49.4303
+  lng: 1.08562
+  reservation: true
+  pickup: true
+- id: 92480427
+  code: '1063'
+  name: La Grande Récré QUIMPER
+  region: Bretagne
+  zip: '29000'
+  city: QUIMPER
+  lat: 48.014587607197
+  lng: -4.0836525359363
+  reservation: true
+  pickup: true
+- id: 92177337
+  code: '1705'
+  name: La Grande Récré REDON
+  region: Bretagne
+  zip: '35600'
+  city: REDON
+  lat: 47.6704
+  lng: -2.06664
+  reservation: true
+  pickup: true
+- id: 92001818
+  code: '1404'
+  name: La Grande Récré LORIENT
+  region: Bretagne
+  zip: '56100'
+  city: LORIENT
+  lat: 47.7688
+  lng: -3.3946
+  reservation: true
+  pickup: true

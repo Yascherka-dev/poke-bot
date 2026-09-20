@@ -1,0 +1,56 @@
+name: radar
+
+# Filet de sécurité : un passage toutes les 5 minutes (souvent retardé par
+# GitHub). La boucle locale reste la méthode principale. Si le site refuse les
+# IP de datacenter (403, captcha), on ne contourne pas : on désactive ce cron.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  once:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Dépendances (sans Playwright : le mode HTTP suffit)
+        run: pip install httpx PyYAML python-dotenv
+
+      # state.json est persisté entre deux runs via le cache : clé unique par
+      # run, restauration sur le préfixe, donc toujours le dernier état.
+      - name: Restaurer state.json
+        uses: actions/cache/restore@v4
+        with:
+          path: state.json
+          key: radar-state-${{ github.run_id }}
+          restore-keys: radar-state-
+
+      - name: Un passage
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python radar.py --once
+
+      - name: Sauvegarder state.json
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: state.json
+          key: radar-state-${{ github.run_id }}
+
+      - name: Journal
+        if: always()
+        run: tail -n 40 radar.log || true
