@@ -83,7 +83,18 @@
     $('refresh-hint').textContent = r.refresh_available_in > 0 ? `disponible dans ${r.refresh_available_in} s` : '';
   }
 
-  async function load() { try { render(await (await fetch('/api/state')).json()); } catch (e) { $('meta').textContent = 'Radar injoignable.'; } }
+  async function load() {
+    try {
+      const res = await fetch('/api/state');
+      if (!res.ok) throw new Error(res.status);
+      render(await res.json());
+    } catch (e) {
+      $('meta').textContent = 'Radar injoignable.';
+      const b = $('banner'); b.className = 'banner bad';
+      b.textContent = 'Cette page doit être servie par le radar, pas par un serveur de fichiers (Live Server, port 5500…). '
+        + 'Lance « python radar.py --serve » puis ouvre http://127.0.0.1:8765';
+    }
+  }
 
   $('refresh').addEventListener('click', async () => {
     $('refresh').disabled = true;
